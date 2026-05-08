@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>École Saint Joseph de SAABA</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="logo">
+                    <h1>📚 Lycée Privé Saint Joseph de SAABA</h1>
+                </div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#accueil" onclick="showPage('accueil')">Accueil</a></li>
+                    <li><a href="#apropos" onclick="showPage('apropos')">À Propos</a></li>
+                    <li><a href="#cours" onclick="showPage('cours')">Cours</a></li>
+                    <li><a href="#interactions" onclick="showPage('interactions')">Interactions</a></li>
+                    <li><a href="#inscription" onclick="showPage('inscription')">Inscription</a></li>
+                    <li><a href="#connexion" onclick="showPage('connexion')" id="loginLink">Connexion</a></li>
+                    <li><a href="#compte" onclick="showPage('compte')" id="accountLink" style="display:none;">Mon Compte</a></li>
+                    <li><a href="#administration" onclick="showPage('administration')" id="adminLink" style="display:none;">Administration</a></li>
+                    <li><a href="#" onclick="logout()" id="logoutLink" style="display:none;">Déconnexion</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Pages -->
+        <div class="container">
+
+            <!-- Page Accueil -->
+            <div id="accueil" class="page active">
+                <section class="hero">
+                    <div class="hero-slideshow" aria-hidden="true">
+                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80" alt="">
+                        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1600&q=80" alt="">
+                        <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1600&q=80" alt="">
+                    </div>
+                    <div class="hero-content">
+                        <h2>Bienvenue au Lycée Privé Saint Joseph de SAABA</h2>
+                        <p>Un établissement d'excellence pour la formation des jeunes talents</p>
+                        <button class="btn btn-primary" onclick="showPage('inscription')">S'inscrire</button>
+                    </div>
+                </section>
+
+                <section class="info-grid">
+                    <div class="info-card">
+                        <h3>🎓 Excellence Académique</h3>
+                        <p>Des cours de qualité dispensés par des enseignants qualifiés</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>👥 Communauté Engagée</h3>
+                        <p>Un environnement propice à l'interaction et à l'entraide</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>📋 Plateforme Digitale</h3>
+                        <p>Gestion en ligne des inscriptions et des documents</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>🌟 Suivi Personnalisé</h3>
+                        <p>Un accompagnement individualisé pour chaque étudiant</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Page À Propos -->
+            <div id="apropos" class="page">
+                <h2>À Propos de l'École</h2>
+                <div class="about-content">
+                    <h3>Historique</h3>
+                    <p>L'École Saint Joseph de Saaba est un établissement d'enseignement fondé pour offrir une formation de qualité aux jeunes du Sahel. Notre mission est de préparer les étudiants à relever les défis du XXIe siècle.</p>
+                    
+                    <h3>Notre Mission</h3>
+                    <p>Offrir une éducation de qualité, inclusive et innovante qui développe les compétences académiques, sociales et civiques de nos apprenants.</p>
+                    
+                    <h3>Nos Valeurs</h3>
+                    <ul>
+                        <li>Excellence académique</li>
+                        <li>Intégrité et honnêteté</li>
+                        <li>Respect et inclusion</li>
+                        <li>Innovation et créativité</li>
+                        <li>Engagement communautaire</li>
+                    </ul>
+
+                    <h3>Infrastructure</h3>
+                    <p>Notre campus dispose de:</p>
+                    <ul>
+                        <li>Salles de classe modernes et bien équipées</li>
+                        <li>Laboratoires scientifiques</li>
+                        <li>Bibliothèque avec accès informatique</li>
+                        <li>Espaces de récréation</li>
+                        <li>Cafétéria</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Page Cours -->
+            <div id="cours" class="page">
+                <h2>Nos Cours</h2>
+                <div id="coursesList" class="courses-grid">
+                    <!-- Les cours seront chargés ici -->
+                </div>
+            </div>
+
+            <!-- Page Interactions -->
+            <div id="interactions" class="page">
+                <h2>Espace d'Interactions</h2>
+                
+                <!-- Créer un nouveau message (si connecté) -->
+                <div id="newInteractionForm" style="display:none;">
+                    <h3>Poster un Message</h3>
+                    <form onsubmit="postInteraction(event)">
+                        <input type="text" id="interactionTitle" placeholder="Titre du message" required>
+                        <textarea id="interactionMessage" placeholder="Votre message..." required></textarea>
+                        <select id="interactionCategory" required>
+                            <option value="">Sélectionner une catégorie</option>
+                            <option value="question">Question</option>
+                            <option value="announcement">Annonce</option>
+                            <option value="discussion">Discussion</option>
+                            <option value="help">Demande d'aide</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Poster</button>
+                    </form>
+                </div>
+
+                <!-- Liste des interactions -->
+                <div id="interactionsList" class="interactions-list">
+                    <!-- Les interactions seront chargées ici -->
+                </div>
+            </div>
+
+            <!-- Page Inscription -->
+            <div id="inscription" class="page">
+                <h2>Inscription</h2>
+                <div class="form-container">
+                    <form onsubmit="submitRegistration(event)">
+                        <h3>Informations de l'Étudiant</h3>
+                        <input type="text" id="firstName" placeholder="Prénom" required>
+                        <input type="text" id="lastName" placeholder="Nom" required>
+                        <input type="email" id="regEmail" placeholder="Email" required>
+                        <input type="tel" id="phone" placeholder="Téléphone" required>
+                        
+                        <select id="classLevel" required>
+                            <option value="">Sélectionner une classe</option>
+                            <option value="6ème A">6ème A</option>
+                            <option value="6ème B">6ème B</option>
+                            <option value="5ème A">5ème A</option>
+                            <option value="5ème B">5ème B</option>
+                            <option value="4ème A">4ème A</option>
+                            <option value="4ème B">4ème B</option>
+                            <option value="3ème A">3ème A</option>
+                            <option value="3ème B">3ème B</option>
+                        </select>
+
+                        <h3>Informations du Tuteur</h3>
+                        <input type="text" id="parentName" placeholder="Nom du tuteur" required>
+                        <input type="tel" id="parentPhone" placeholder="Téléphone du tuteur" required>
+
+                        <button type="submit" class="btn btn-primary">Envoyer l'Inscription</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Page Connexion -->
+            <div id="connexion" class="page">
+                <h2>Connexion</h2>
+                <div class="form-container">
+                    <form onsubmit="handleLogin(event)">
+                        <input type="email" id="loginEmail" placeholder="Email" required>
+                        <input type="password" id="loginPassword" placeholder="Mot de passe" required>
+                        <button type="submit" class="btn btn-primary">Se Connecter</button>
+                        <p>Pas encore de compte? <a href="#" onclick="showPage('creercompte')">Créer un compte</a></p>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Page Créer un Compte -->
+            <div id="creercompte" class="page">
+                <h2>Créer un Compte</h2>
+                <div class="form-container">
+                    <form onsubmit="handleRegister(event)">
+                        <input type="text" id="registerUsername" placeholder="Nom d'utilisateur" required>
+                        <input type="email" id="registerEmail" placeholder="Email" required>
+                        <input type="password" id="registerPassword" placeholder="Mot de passe" required>
+                        <input type="text" id="registerFullName" placeholder="Nom complet" required>
+                        <button type="submit" class="btn btn-primary">Créer un Compte</button>
+                        <p>Vous avez déjà un compte? <a href="#" onclick="showPage('connexion')">Se connecter</a></p>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Page Mon Compte -->
+            <div id="compte" class="page">
+                <h2>Mon Compte</h2>
+                <div class="account-container">
+                    <div id="accountInfo"></div>
+                    
+                    <h3>Dépôt de Dossier</h3>
+                    <form onsubmit="submitDocument(event)">
+                        <select id="docType" required>
+                            <option value="">Sélectionner un type de document</option>
+                            <option value="inscription">Demande d'inscription</option>
+                            <option value="certificat">Certificat</option>
+                            <option value="justificatif">Justificatif</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                        <textarea id="docDescription" placeholder="Description du document"></textarea>
+                        <input type="file" id="docFile" accept=".pdf,.doc,.docx,.jpg,.png,.zip">
+                        <button type="submit" class="btn btn-primary">Envoyer le Dossier</button>
+                    </form>
+
+                    <h3>Mes Dossiers Envoyés</h3>
+                    <div id="submissionsList"></div>
+                </div>
+            </div>
+
+            <!-- Page Administration -->
+            <div id="administration" class="page">
+                <h2>Espace Administrateur</h2>
+                <div class="admin-dashboard">
+                    <section class="admin-section">
+                        <div class="admin-section-header">
+                            <h3>Dépôts de Dossier</h3>
+                            <span id="adminSubmissionsCount" class="admin-count">0</span>
+                        </div>
+                        <div id="adminSubmissionsList" class="admin-list"></div>
+                    </section>
+
+                    <section class="admin-section">
+                        <div class="admin-section-header">
+                            <h3>Demandes d'Inscription</h3>
+                            <span id="adminRegistrationsCount" class="admin-count">0</span>
+                        </div>
+                        <div id="adminRegistrationsList" class="admin-list"></div>
+                    </section>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
