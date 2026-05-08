@@ -18,6 +18,11 @@ app.use('/api/registrations', require('./routes/registrations'));
 app.use('/api/interactions', require('./routes/interactions'));
 app.use('/api/submissions', require('./routes/submissions'));
 
+// Handle 404 for API routes
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: 'Endpoint API non trouvé' });
+});
+
 // Serve index.html for all other routes
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));

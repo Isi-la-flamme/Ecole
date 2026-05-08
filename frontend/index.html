@@ -18,8 +18,8 @@
                     <li><a href="#accueil" onclick="showPage('accueil')">Accueil</a></li>
                     <li><a href="#apropos" onclick="showPage('apropos')">À Propos</a></li>
                     <li><a href="#cours" onclick="showPage('cours')">Cours</a></li>
-                    <li><a href="#interactions" onclick="showPage('interactions')">Interactions</a></li>
-                    <li><a href="#inscription" onclick="showPage('inscription')">Inscription</a></li>
+                    <li><a href="#interactions" onclick="showPage('interactions')" id="interactionsLink" style="display:none;">Interactions</a></li>
+                    <li><a href="#inscription" onclick="showPage('inscription')" id="inscriptionLink" style="display:none;">Inscription</a></li>
                     <li><a href="#connexion" onclick="showPage('connexion')" id="loginLink">Connexion</a></li>
                     <li><a href="#compte" onclick="showPage('compte')" id="accountLink" style="display:none;">Mon Compte</a></li>
                     <li><a href="#administration" onclick="showPage('administration')" id="adminLink" style="display:none;">Administration</a></li>
@@ -42,7 +42,7 @@
                     <div class="hero-content">
                         <h2>Bienvenue au Lycée Privé Saint Joseph de SAABA</h2>
                         <p>Un établissement d'excellence pour la formation des jeunes talents</p>
-                        <button class="btn btn-primary" onclick="showPage('inscription')">S'inscrire</button>
+                        <button class="btn btn-primary" id="heroActionButton" onclick="showPage('connexion')">Se connecter</button>
                     </div>
                 </section>
 
@@ -137,27 +137,36 @@
                 <h2>Inscription</h2>
                 <div class="form-container">
                     <form onsubmit="submitRegistration(event)">
-                        <h3>Informations de l'Étudiant</h3>
-                        <input type="text" id="firstName" placeholder="Prénom" required>
-                        <input type="text" id="lastName" placeholder="Nom" required>
-                        <input type="email" id="regEmail" placeholder="Email" required>
-                        <input type="tel" id="phone" placeholder="Téléphone" required>
-                        
-                        <select id="classLevel" required>
+                        <h3>Informations de l'elève</h3>
+                        <input type="text" id="firstName" placeholder="Nom" required>
+                        <input type="text" id="lastName" placeholder="Prénoms" required>
+                        <input type="text" id="birthDate" placeholder="Date de naissance" required>
+
+                        <select id="classLevel" required onchange="toggleAttestationFields()">
                             <option value="">Sélectionner une classe</option>
-                            <option value="6ème A">6ème A</option>
-                            <option value="6ème B">6ème B</option>
-                            <option value="5ème A">5ème A</option>
-                            <option value="5ème B">5ème B</option>
-                            <option value="4ème A">4ème A</option>
-                            <option value="4ème B">4ème B</option>
-                            <option value="3ème A">3ème A</option>
-                            <option value="3ème B">3ème B</option>
+                            <option value="6ème">6ème</option>
+                            <option value="2nd A">2nd A</option>
+                            <option value="2nd C">2nd C</option>
                         </select>
 
-                        <h3>Informations du Tuteur</h3>
-                        <input type="text" id="parentName" placeholder="Nom du tuteur" required>
+                        <!-- Attestation pour la 6ème -->
+                        <div id="attestationPrimaire" style="display: none;">
+                            <label for="attestationPrimaireFile">📄 Attestation d'Études Primaire</label>
+                            <input type="file" id="attestationPrimaireFile" accept=".pdf,.doc,.docx,.jpg,.png" placeholder="Joindre l'attestation d'études primaire">
+                        </div>
+
+                        <!-- Attestation pour la 2nde -->
+                        <div id="attestationBEPC" style="display: none;">
+                            <label for="attestationBEPCFile">📄 Attestation BEPC</label>
+                            <input type="file" id="attestationBEPCFile" accept=".pdf,.doc,.docx,.jpg,.png" placeholder="Joindre l'attestation BEPC">
+                        </div>
+
+                        <h3>Informations - Parents</h3>
+                        <input type="text" id="parentName" placeholder="Nom/prenom du père" required>
                         <input type="tel" id="parentPhone" placeholder="Téléphone du tuteur" required>
+                        <input type="text" id="mamanName" placeholder="Nom/prenom de la mère" required>
+                        <input type="tel" id="mamanPhone" placeholder="Téléphone de la mère" required>
+                        
 
                         <button type="submit" class="btn btn-primary">Envoyer l'Inscription</button>
                     </form>
@@ -212,6 +221,9 @@
                         <button type="submit" class="btn btn-primary">Envoyer le Dossier</button>
                     </form>
 
+                    <h3>Mes Demandes d'Inscription</h3>
+                    <div id="userRegistrationsList"></div>
+
                     <h3>Mes Dossiers Envoyés</h3>
                     <div id="submissionsList"></div>
                 </div>
@@ -226,6 +238,12 @@
                             <h3>Dépôts de Dossier</h3>
                             <span id="adminSubmissionsCount" class="admin-count">0</span>
                         </div>
+                        <div class="admin-filters" data-filter-group="submissions">
+                            <button type="button" class="filter-btn active" onclick="setAdminFilter('submissions', 'all')">Tous</button>
+                            <button type="button" class="filter-btn" onclick="setAdminFilter('submissions', 'pending')">En attente</button>
+                            <button type="button" class="filter-btn" onclick="setAdminFilter('submissions', 'accepted')">Acceptés</button>
+                            <button type="button" class="filter-btn" onclick="setAdminFilter('submissions', 'rejected')">Refusés</button>
+                        </div>
                         <div id="adminSubmissionsList" class="admin-list"></div>
                     </section>
 
@@ -234,8 +252,21 @@
                             <h3>Demandes d'Inscription</h3>
                             <span id="adminRegistrationsCount" class="admin-count">0</span>
                         </div>
+                        <div class="admin-filters" data-filter-group="registrations">
+                            <button type="button" class="filter-btn active" onclick="setAdminFilter('registrations', 'all')">Tous</button>
+                            <button type="button" class="filter-btn" onclick="setAdminFilter('registrations', 'pending')">En attente</button>
+                            <button type="button" class="filter-btn" onclick="setAdminFilter('registrations', 'accepted')">Acceptées</button>
+                            <button type="button" class="filter-btn" onclick="setAdminFilter('registrations', 'rejected')">Refusées</button>
+                        </div>
                         <div id="adminRegistrationsList" class="admin-list"></div>
                     </section>
+                </div>
+            </div>
+
+            <div id="adminDetailModal" class="modal" style="display:none;">
+                <div class="modal-content">
+                    <button type="button" class="modal-close" onclick="closeAdminDetail()">×</button>
+                    <div id="adminDetailContent"></div>
                 </div>
             </div>
 

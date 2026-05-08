@@ -10,8 +10,15 @@ router.post('/register', async (req, res) => {
   try {
     const { username, email, password, fullName } = req.body;
 
-    if (!username || !email || !password || !fullName) {
-      return res.status(400).json({ error: 'Tous les champs sont obligatoires' });
+    // Vérifier les champs manquants
+    const missingFields = [];
+    if (!username) missingFields.push('Nom d\'utilisateur');
+    if (!email) missingFields.push('Email');
+    if (!password) missingFields.push('Mot de passe');
+    if (!fullName) missingFields.push('Nom complet');
+
+    if (missingFields.length > 0) {
+      return res.status(400).json({ error: `Champs manquants: ${missingFields.join(', ')}` });
     }
 
     if (db.getUserByEmail(email)) {
@@ -48,8 +55,13 @@ router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Email et mot de passe obligatoires' });
+    // Vérifier les champs manquants
+    const missingFields = [];
+    if (!email) missingFields.push('Email');
+    if (!password) missingFields.push('Mot de passe');
+
+    if (missingFields.length > 0) {
+      return res.status(400).json({ error: `Champs manquants: ${missingFields.join(', ')}` });
     }
 
     const user = db.getUserByEmail(email);
