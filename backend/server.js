@@ -3,6 +3,9 @@ const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
 
+const AppError = require('./utils/appError');
+const globalErrorHandler = require('./middleware/errorMiddleware');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -19,8 +22,8 @@ app.use('/api/interactions', require('./routes/interactions'));
 app.use('/api/submissions', require('./routes/submissions'));
 
 // Handle 404 for API routes
-app.use('/api', (req, res) => {
-  res.status(404).json({ error: 'Endpoint API non trouvé' });
+app.use('/api', (req, res, next) => {
+  next(new AppError(`L'URL ${req.originalUrl} est introuvable sur ce serveur`, 404));
 });
 
 // Serve index.html for all other routes
@@ -29,10 +32,7 @@ app.get('*', (req, res) => {
 });
 
 // Error handling
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Erreur serveur' });
-});
+app.use(globalErrorHandler);
 
 app.listen(PORT, () => {
   console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
