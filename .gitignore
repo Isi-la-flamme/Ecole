@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 node_modules/
 .env
 .env.local
@@ -6,3 +7,11 @@ uploads/
 .DS_Store
 Database.json
 database.js
+=======
+node_modules/
+.env
+.env.local
+*.log
+uploads/
+.DS_Store
+>>>>>>> ec6c936a29ffedcaf795d3211e8152c9732509a4
