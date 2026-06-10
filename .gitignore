@@ -6,7 +6,6 @@ node_modules/
 uploads/
 .DS_Store
 Database.json
-database.js
 =======
 node_modules/
 .env
